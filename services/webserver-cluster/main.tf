@@ -84,7 +84,7 @@ resource "aws_lb_target_group" "asg" {
 
   port     = local.http_port
 
-  protocol = local.tcp_protocol
+  protocol = "HTTP"
 
   vpc_id   = data.aws_vpc.default.id
 
@@ -92,7 +92,7 @@ resource "aws_lb_target_group" "asg" {
 
     path = "/"
 
-    protocol = local.http_port
+    protocol = "HTTP"
 
     matcher = "200"
 
@@ -112,7 +112,7 @@ resource "aws_lb_listener" "http" {
 
   port              = local.http_port
 
-  protocol          = local.any_protocol
+  protocol          = "HTTP"
 
  
 
