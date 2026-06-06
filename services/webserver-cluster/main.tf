@@ -4,6 +4,13 @@ data "aws_vpc" "default" {
 
 }
 
+locals {
+  http_port = 80
+  any_port = 0
+  any_protocol = -1
+  tcp_protocol = "tcp"
+  any_cidr = ["0.0.0.0/0"]
+}
 data "aws_subnets" default {
 filter {
   name = "vpc-id"
@@ -75,9 +82,9 @@ resource "aws_lb_target_group" "asg" {
 
   name     = "${var.cluster_name}-terraform-asg-example"
 
-  port     = 8080
+  port     = local.http_port
 
-  protocol = "HTTP"
+  protocol = local.tcp_protocol
 
   vpc_id   = data.aws_vpc.default.id
 
@@ -85,7 +92,7 @@ resource "aws_lb_target_group" "asg" {
 
     path = "/"
 
-    protocol = "HTTP"
+    protocol = local.http_port
 
     matcher = "200"
 
@@ -103,9 +110,9 @@ resource "aws_lb_listener" "http" {
 
   load_balancer_arn = aws_lb.example.arn
 
-  port              = "80"
+  port              = local.http_port
 
-  protocol          = "HTTP"
+  protocol          = local.any_protocol
 
  
 
@@ -232,4 +239,21 @@ resource "aws_security_group" "lb_sg" {
   }
 
 }
-
+resource "aws_security_group_rule" "lb_sg_ingress" {
+  description = "this is the ingress rules for loadbalancers"
+  security_group_id = aws_security_group.lb_sg.id
+  type = "ingress"
+  from_port = 80
+  to_port = 80
+  protocol = "tcp"
+  cidr_blocks = ["0.0.0.0/0"]  
+}
+resource "aws_security_group_rule" "lb_sg_egress" {
+  description = "this is the ingress rules for loadbalancers"
+  security_group_id = aws_security_group.lb_sg.id
+  type = "egress"
+  from_port = 0
+  to_port = 65535
+  protocol = "tcp"
+  cidr_blocks = ["0.0.0.0/0"]  
+}
