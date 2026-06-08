@@ -234,7 +234,7 @@ resource "aws_security_group_rule" "lb_sg_egress" {
   cidr_blocks = ["0.0.0.0/0"]  
 }
 resource "aws_autoscaling_schedule" "scaleout" {
-  count = var.enable_scaling_policy? 1 : 0
+  count = var.enable_scaling_policy ? 1 : 0
   scheduled_action_name = "${var.cluster_name}- out during business hours"
   min_size = 2
   max_size = 5
