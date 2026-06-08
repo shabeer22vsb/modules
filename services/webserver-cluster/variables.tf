@@ -26,3 +26,7 @@ variable "max_size"{
     description = "number of maximum instances in ASG"
     default = 1
 }
+variable "enable_scaling policy" {
+  description = "enable/disable scaling policy"
+  type = bool
+}

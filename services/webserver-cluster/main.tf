@@ -233,3 +233,12 @@ resource "aws_security_group_rule" "lb_sg_egress" {
   protocol = "tcp"
   cidr_blocks = ["0.0.0.0/0"]  
 }
+resource "aws_autoscaling_schedule" "scaleout" {
+  count = var.enable_scaling_policy? 1 : 0
+  scheduled_action_name = "${var.cluster_name}- out during business hours"
+  min_size = 2
+  max_size = 5
+  desired_capacity = 2
+  recurrence = "0 9 * * *"
+  autoscaling_group_name = aws_autoscaling_group.example.name
+}
