@@ -82,7 +82,7 @@ resource "aws_lb_target_group" "asg" {
 
   name     = "${var.cluster_name}-terraform-asg-example"
 
-  port     = local.http_port
+  port     = 8080
 
   protocol = "HTTP"
 
