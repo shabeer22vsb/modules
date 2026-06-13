@@ -4,13 +4,12 @@ provider "aws" {
 resource "aws_db_instance" "example_settled" {
   identifier_prefix = "terraform-up-and-running"
   engine = "mysql"
+  username = var.db_username
+  password = var.db_password
   allocated_storage = var.allocated_storage
   instance_class = var.db_instance_class
   skip_final_snapshot = var.skip_final_snapshot
   db_name = "example_database"
-
-  username = var.db_username
-  password = var.db_password
 }
 terraform {
   backend "s3" {
