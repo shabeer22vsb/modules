@@ -21,5 +21,5 @@ variable "allocated_storage" {
 variable "skip_final_snapshot" {
     description = "need to skip final snapshor or not"
     type = bool
-    default = false
+    default = true
 }
