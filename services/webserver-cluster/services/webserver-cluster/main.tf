@@ -191,8 +191,8 @@ resource "aws_launch_configuration" "example" {
     security_groups = [aws_security_group.instance.id]
 
     user_data = templatefile("${path.module}/user-data.sh",{
-     # db_address = data.terraform_remote_state.db.outputs.address
-      #db_port = data.terraform_remote_state.db.outputs.port
+      db_address = data.terraform_remote_state.db.outputs.address
+      db_port = data.terraform_remote_state.db.outputs.port
     })
 }
 
