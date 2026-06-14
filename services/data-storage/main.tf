@@ -1,4 +1,12 @@
 
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 6.50"
+    }
+  }
+}
 data "aws_caller_identity" "self" {}
 data "aws_secretsmanager_secret_version" "db-creds" {
   secret_id = "db-creds"

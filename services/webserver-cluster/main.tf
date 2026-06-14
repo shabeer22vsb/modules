@@ -3,7 +3,25 @@ data "aws_vpc" "default" {
   default = true
 
 }
-
+terraform {
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+      version = "~> 6.50"
+    }
+  }
+}
+provider "aws" {
+  region = "eu-west-1"           # ← default provider (no alias)
+}
+provider "aws" {
+    region = "eu-west-1"
+    alias = "ireland"
+}
+provider "aws" {
+    region = "eu-west-1"
+    alias = "ireland"
+}
 locals {
   http_port = 80
   any_port = 0
@@ -181,10 +199,26 @@ data "terraform_remote_state" "db" {
        region = "eu-west-1"
     } 
 }
-
+data "aws_ami" "ubuntu_ireland" {
+  most_recent = true
+  owners = ["099720109477"]
+  filter {
+    name = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
+  }
+}
+data "aws_ami" "ubuntu_london" {
+  provider = aws.ireland
+  most_recent = true
+  owners = ["099720109477"]
+  filter {
+    name = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
+  }
+}
 resource "aws_launch_configuration" "example" {
 
-    image_id           = "ami-0fe38eb778038c70c"
+    image_id           = data.aws_ami.ubuntu_ireland
 
     instance_type = "${var.instance_type}"
 
