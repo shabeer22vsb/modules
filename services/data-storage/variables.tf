@@ -31,10 +31,10 @@ variable "backup_retention_period" {
 variable "replicate_source_db" {
   description = "if specified repliate at source DB ARN"
   type = string
-  default = "null"
+  default = null
 }
 variable "db_name" {
   description = "name of the DB"
   type = string
-  default = "null"
+  default = null
 }
