@@ -40,11 +40,14 @@ resource "aws_kms_alias" "cmd" {
 }
 resource "aws_db_instance" "example_settled" {
   identifier_prefix = "terraform-up-and-running"
-  engine = "mysql"
-  username = var.db_username
-  password = var.db_password
+  backup_retention_period = var.backup_retention_period
+  replicate_source_db = var.replicate_source_db
+  engine = var.replicate_source_db == null ? "mysql" : null
+  username = var.replicate_source_db == null ? var.db_username : null
+  password = var.replicate_source_db == null ? var.db_password : null
+  db_name = var.replicate_source_db == null ? var.db_name : null
   allocated_storage = var.allocated_storage
   instance_class = var.db_instance_class
   skip_final_snapshot = var.skip_final_snapshot
-  db_name = "example_database"
+  
 }
