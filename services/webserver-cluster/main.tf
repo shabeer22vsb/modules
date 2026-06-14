@@ -218,7 +218,7 @@ data "aws_ami" "ubuntu_london" {
 }
 resource "aws_launch_configuration" "example" {
 
-    image_id           = data.aws_ami.ubuntu_ireland
+    image_id           = data.aws_ami.ubuntu_ireland.id
 
     instance_type = "${var.instance_type}"
 
